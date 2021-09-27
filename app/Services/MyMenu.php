@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Admin\Category;
 use Pratiksh\Adminetic\Traits\SidebarHelper;
 use Pratiksh\Adminetic\Contracts\SidebarInterface;
 
@@ -75,6 +76,98 @@ class MyMenu implements SidebarInterface
                 'type' => 'link',
                 'name' => 'Github',
                 'icon' => 'fab fa-github',
+                'link' => 'https://github.com/pratiksh404/admineticl',
+            ],
+             [
+                'type' => 'breaker',
+                'name' => 'ECOMMERCE TOOLS ',
+                'description' => 'Development Environment',
+            ],
+
+            //Category Menu
+            [
+                'type' => 'menu',
+                'name' => 'Category',
+                'icon' => 'fa fa-window-restore',
+                'is_active' => request()->routeIs('category*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Category::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Category::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('category', App\Models\Admin\Category::class)
+            ],
+
+            //Brand Menu
+
+            [
+                'type' => 'menu',
+                'name' => 'Brand',
+                'icon' => 'fa fa-btc',
+                'is_active' => request()->routeIs('brand*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Brand::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Brand::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('brand', App\Models\Admin\Brand::class)
+            ],
+
+            //Tax Menu
+
+             [
+                'type' => 'menu',
+                'name' => 'Tax',
+                'icon' => 'fa fa-percent',
+                'is_active' => request()->routeIs('tax*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Tax::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Tax::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('tax', App\Models\Admin\Tax::class)
+            ],
+
+            //Unit Menu
+
+            [
+                'type' => 'menu',
+                'name' => 'Unit',
+                'icon' => 'fa fa-balance-scale',
+                'is_active' => request()->routeIs('unit*') ? 'active' : '',
+                'conditions' => [
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('view-any', App\Models\Admin\Unit::class),
+                    ],
+                    [
+                        'type' => 'or',
+                        'condition' => auth()->user()->can('create', App\Models\Admin\Unit::class),
+                    ],
+                ],
+                'children' => $this->indexCreateChildren('unit', App\Models\Admin\Unit::class)
+            ],
+
+            //Adminetic Github
+            [
+                'type' => 'link',
+                'name' => 'Github',
+                'icon' => 'fa fa-github',
                 'link' => 'https://github.com/pratiksh404/admineticl',
             ],
         ];
