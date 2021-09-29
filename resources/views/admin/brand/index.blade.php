@@ -20,7 +20,7 @@
                     <td>{{$brand->id}}</td>
                     <td>{{$brand->code}}</td>
                     <td>{{$brand->name}}</td>
-                    <td><img src="{{$brand->image}}" alt="{{$brand->title}}" width="100px"></td>
+                    <td><img src="{{ asset('storage/'. $brand->image)}}" alt="{{$brand->title}}" width="50px"></td>
                     <td>
                         <x-adminetic-action :model="$brand" route="brand" />
                     </td>

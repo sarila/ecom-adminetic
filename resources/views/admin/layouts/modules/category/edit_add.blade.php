@@ -37,8 +37,8 @@
                     <div class="card-body p-3">
                         <label for="description">Description</label>
                         <textarea name="description" id="heavytexteditor">
-                          @isset($post->description)
-                              {!! $post->description !!}
+                          @isset($category->description)
+                              {!! $category->description !!}
                           @endisset
                           </textarea>
                     </div>
@@ -57,6 +57,10 @@
                                 <div class="input-group">
                                     <select name="parent_id" id="parent_id" class="select2" style="width: 100%">
                                         <option selected disabled>Select Parent Category .. </option>
+                                        @foreach($main_categories as $main_category)
+                                            <option value="{{$main_category->id}}" {{isset($category->id) ? ($category->id == $main_category->id ? 'disabled' : '') : ''}} {{isset($category->parent_id) ? ($category->parent_id == $main_category->id ? 'selected' : '') : ''}}> {{$main_category->name}} </option>
+                                        @endforeach
+
                                     </select>
                                 </div>
                             </div>
@@ -85,7 +89,7 @@
                         <label for="status">Status<span class="text-danger">*</span></label>
                         <div class="input-group">
                             <select name="status" id="status" class="select2" style="width: 100%">
-                                <option value="1">Active</option>
+                                <option value="1" {{isset($category->active) ? ($category->active ? 'checked' : '') : 'checked'}}>Active</option>
                                 <option value="0">In Active</option>
                             </select>
                         </div>

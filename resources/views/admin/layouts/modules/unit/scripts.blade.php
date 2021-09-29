@@ -10,20 +10,16 @@
            $('#code').val(random);
         });
     });
-</script>
 
-<script>
-    function readURL(input) {
-    if(input.files && input.files[0]) {
-        var reader = new FileReader();
-        reader.onload = function(e) {
-            $('#category_image').hide();
-            $('#category_image_placeholder')
-                .attr('src',e.target.result)
-                .width(60)
-            };
-        reader.readAsDataURL(input.files[0]);
-        }
-    }
-</script>
+    $(document).ready(function() {
+        $('#baseunit').on('change', function() {
+            var value = $(this).val();
 
+            if (value == 0) {
+                $('#operator').show();
+            } else {
+                $('#operator').hide();
+            }
+        })
+    })
+</script>

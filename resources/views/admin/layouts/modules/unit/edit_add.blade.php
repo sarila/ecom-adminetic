@@ -54,7 +54,7 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-4" id="operator">
         <div class="row">
             <div class="col-lg-12">
                 <div class="card">

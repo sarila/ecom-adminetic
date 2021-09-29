@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Str;
 
 class CategoryRequest extends FormRequest
 {
@@ -13,7 +14,14 @@ class CategoryRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
+    }
+
+    protected function prepareForValidation()
+    {
+        $this->merge([
+            'slug' => Str::slug($this->name),
+        ]);
     }
 
     /**
@@ -23,8 +31,16 @@ class CategoryRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->category->id ?? null; 
         return [
-            //
+            'name' => 'required | string | max:250',
+            'slug' => 'required | string | max:250',
+            'image' => 'sometimes | file | image | max:3000', 
+            'code' => 'required| unique:categories,code,'.$id, 
+            'description' => 'sometimes | max:30000', 
+            'parent_id' => 'sometimes | integer ',
+            'priority' => 'sometimes | integer', 
+            'status' => 'bool | sometimes',
         ];
     }
 }

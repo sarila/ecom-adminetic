@@ -8,15 +8,25 @@
             <thead>
                 <tr>
                     <th>ID</th>
+                    <th>Code</th>
                     <th>Name</th>
+                    <th>Symbol</th>
+                    <th>Base Unit</th>
+                    <th>Operator Name</th>
+                    <th>Operator Value</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($units as $unit)
                 <tr>
-                    <td></td>
-                    <td></td>
+                    <td>{{$unit->id}}</td>
+                    <td>{{$unit->code}}</td>
+                    <td>{{$unit->name}}</td>
+                    <td>{{$unit->symbol}}</td>
+                    <td>{{$unit->baseunit}}</td>
+                    <td>{{$unit->opname}}</td>
+                    <td>{{$unit->opvalue}}</td>
                     <td>
                         <x-adminetic-action :model="$unit" route="unit" />
                     </td>

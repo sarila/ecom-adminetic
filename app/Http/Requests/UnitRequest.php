@@ -13,7 +13,7 @@ class UnitRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,15 @@ class UnitRequest extends FormRequest
      */
     public function rules()
     {
+        $id = $this->unit->id ?? null;
         return [
-            //
+            'code' => 'required| unique:categories,code,'.$id, 
+            'name' => 'required| string| max:250',
+            'symbol' => 'required| string| max:3', 
+            'baseunit' => 'required| integer', 
+            'opname' => 'sometimes| string| max:5',
+            'opvalue' => 'sometimes| string| max:5',
+
         ];
     }
 }

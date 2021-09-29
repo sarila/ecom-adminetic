@@ -5,6 +5,7 @@ namespace App\Repositories;
 use App\Models\Admin\Category;
 use Illuminate\Support\Facades\Cache;
 use App\Contracts\CategoryRepositoryInterface;
+use Intervention\Image\Facades\Image;
 use App\Http\Requests\CategoryRequest;
 
 class CategoryRepository implements CategoryRepositoryInterface
@@ -23,13 +24,15 @@ class CategoryRepository implements CategoryRepositoryInterface
     // Category Create
     public function createCategory()
     {
-        //
+        $main_categories = Category::where('parent_id', 0)->get(['name', 'id']);
+        return compact('main_categories');
     }
 
     // Category Store
     public function storeCategory(CategoryRequest $request)
     {
-        Category::create($request->validated());
+        $category = Category::create($request->validated());
+        $request->image ? $this->uploadImage($category) : '';
     }
 
     // Category Show
@@ -41,18 +44,32 @@ class CategoryRepository implements CategoryRepositoryInterface
     // Category Edit
     public function editCategory(Category $category)
     {
-        return compact('category');
+        $main_categories = Category::where('parent_id', 0)->get(['name', 'id']);
+        return compact('category', 'main_categories');
     }
 
     // Category Update
     public function updateCategory(CategoryRequest $request, Category $category)
     {
         $category->update($request->validated());
+        $request->image ? $this->uploadImage($category) : '';
     }
 
     // Category Destroy
     public function destroyCategory(Category $category)
     {
         $category->delete();
+    }
+
+    //For updating image
+    protected function uploadImage(Category $category)
+    {
+        if (request()->image) {
+            $category->update([
+                'image' => request()->image->store('admin/category/image', 'public')
+            ]);
+            $image = Image::make(request()->file('image')->getRealPath());
+            $image->save(public_path('storage/' . $category->image));
+        }
     }
 }
